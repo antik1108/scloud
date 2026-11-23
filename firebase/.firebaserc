@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "demo-lumio",
+    "demo": "demo-lumio",
+    "dev": "lumio-dev",
+    "prod": "lumio-prod"
+  }
+}

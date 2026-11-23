@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// Default deny. Each phase adds explicit allow rules (with tests in rules-tests/).
+// See SPEC.md §5.2 for the storage layout.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
