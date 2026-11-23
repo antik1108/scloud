@@ -2,11 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { Card, PillButton, Screen, SectionHeader, colors, spacing, typography } from "@/design-system";
 
+import { PermissionsPanel } from "./PermissionsPanel";
 import { useDevToolsScreen } from "./useDevToolsScreen";
 
 /** Phase 0 smoke test: shows the runtime environment and pings the backend. */
 export function DevToolsScreen() {
-  const { env, ping, runPing } = useDevToolsScreen();
+  const { env, ping, runPing, hasOnboarded, resetOnboarding } = useDevToolsScreen();
 
   return (
     <Screen>
@@ -15,7 +16,25 @@ export function DevToolsScreen() {
         <Card style={styles.rows}>
           <Row label="App env" value={env.appEnv} />
           <Row label="Firebase emulator" value={env.useEmulator ? `on (${env.emulatorHost})` : "off"} />
+          <Row label="Onboarded" value={hasOnboarded ? "yes" : "no"} />
         </Card>
+      </View>
+
+      <View>
+        <SectionHeader title="Permissions" />
+        <Card>
+          <PermissionsPanel />
+        </Card>
+      </View>
+
+      <View>
+        <SectionHeader title="Onboarding" />
+        <PillButton
+          testID="reset-onboarding"
+          title="Reset onboarding"
+          variant="destructive"
+          onPress={resetOnboarding}
+        />
       </View>
 
       <View>

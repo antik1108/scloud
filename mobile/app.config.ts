@@ -38,6 +38,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       monochromeImage: "./assets/android-icon-monochrome.png",
     },
     predictiveBackGestureEnabled: false,
+    // Android 13+ requires this to be declared before requesting notification permission.
+    permissions: ["android.permission.POST_NOTIFICATIONS"],
   },
   plugins: [
     "expo-router",
@@ -48,6 +50,33 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         ios: { useFrameworks: "static", deploymentTarget: "17.0" },
         android: { minSdkVersion: 26 },
+      },
+    ],
+    "expo-localization",
+    "expo-web-browser",
+    [
+      "expo-media-library",
+      {
+        photosPermission: "Lumio needs access to your photos so you can pick portraits to edit.",
+        savePhotosPermission: "Lumio saves your edited photos to your library.",
+        isAccessMediaLocationEnabled: false,
+        granularPermissions: ["photo", "video"],
+      },
+    ],
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Lumio uses the camera so you can take a selfie to edit.",
+        microphonePermission: false,
+        recordAudioAndroid: false,
+        barcodeScannerEnabled: false,
+      },
+    ],
+    [
+      "expo-tracking-transparency",
+      {
+        userTrackingPermission:
+          "Your data is used to measure our ads and offer you relevant promotions. You can change this anytime in Settings.",
       },
     ],
     "@react-native-firebase/app",

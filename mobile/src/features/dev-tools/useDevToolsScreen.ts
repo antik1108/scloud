@@ -4,6 +4,7 @@ import { runtimeEnv } from "@/lib/env";
 import { toUserMessage } from "@/lib/errors";
 import { useServices } from "@/services/ServicesProvider";
 import type { PingResult } from "@/services/types";
+import { useAppStore } from "@/stores/appStore";
 
 export type PingState =
   | { status: "idle" }
@@ -14,6 +15,8 @@ export type PingState =
 export function useDevToolsScreen() {
   const { backendHealth } = useServices();
   const [ping, setPing] = useState<PingState>({ status: "idle" });
+  const hasOnboarded = useAppStore((s) => s.hasOnboarded);
+  const resetOnboarding = useAppStore((s) => s.resetOnboarding);
 
   const runPing = useCallback(async () => {
     setPing({ status: "loading" });
@@ -24,5 +27,5 @@ export function useDevToolsScreen() {
     }
   }, [backendHealth]);
 
-  return { env: runtimeEnv, ping, runPing };
+  return { env: runtimeEnv, ping, runPing, hasOnboarded, resetOnboarding };
 }

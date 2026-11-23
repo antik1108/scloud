@@ -15,7 +15,7 @@ import {
   spacing,
   useToast,
 } from "@/design-system";
-import { MAIN_TABS } from "@/features/navigation/tabs";
+import { MAIN_TABS, buildTabItems } from "@/features/navigation/tabs";
 
 const swatches = [colors.background, colors.surface, colors.surfaceElevated, colors.accent, colors.highlight, colors.destructive];
 
@@ -65,7 +65,7 @@ export function DesignGalleryScreen() {
 
       <SectionHeader title="Tab bar" />
       <View style={styles.tabBarDemo}>
-        <CapsuleTabBar items={MAIN_TABS} activeKey={tab} onSelect={setTab} />
+        <CapsuleTabBar items={buildTabItems({ magicAiNewBadge: true })} activeKey={tab} onSelect={setTab} />
       </View>
     </Screen>
   );

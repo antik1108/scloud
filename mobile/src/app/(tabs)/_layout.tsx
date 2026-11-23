@@ -1,15 +1,21 @@
 import { Tabs } from "expo-router";
+import { useMemo } from "react";
 
 import { CapsuleTabBar, colors } from "@/design-system";
-import { MAIN_TABS } from "@/features/navigation/tabs";
+import { MAIN_TABS, buildTabItems } from "@/features/navigation/tabs";
+import { t } from "@/i18n";
+import { useAppStore } from "@/stores/appStore";
 
 export default function TabsLayout() {
+  const magicAiNewBadge = useAppStore((s) => s.config.magicAiNewBadge);
+  const items = useMemo(() => buildTabItems({ magicAiNewBadge }), [magicAiNewBadge]);
+
   return (
     <Tabs
       screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: colors.background } }}
       tabBar={({ state, navigateToTab, insets }) => (
         <CapsuleTabBar
-          items={MAIN_TABS}
+          items={items}
           activeKey={state.routes[state.index]?.name ?? MAIN_TABS[0].key}
           bottomInset={insets.bottom}
           onSelect={(name) => {
@@ -21,7 +27,7 @@ export default function TabsLayout() {
       )}
     >
       {MAIN_TABS.map((tab) => (
-        <Tabs.Screen key={tab.key} name={tab.key} options={{ title: tab.title }} />
+        <Tabs.Screen key={tab.key} name={tab.key} options={{ title: t(tab.titleKey) }} />
       ))}
     </Tabs>
   );
